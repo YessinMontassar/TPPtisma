@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model auteurs {
+  id         Int            @id @default(autoincrement()) @db.UnsignedInt
+  nomauteur  String         @db.VarChar(50)
+  email      String         @db.VarChar(150)
+  numtel     String         @db.VarChar(15)
+  created_at String?        @db.VarChar(24)
+  updated_at String?        @db.VarChar(24)
+  livres     livre_auteur[]
+}
+
+model editeurs {
+  id         Int      @id @default(autoincrement()) @db.UnsignedInt
+  maisonedit String   @db.VarChar(50)
+  siteweb    String   @db.VarChar(100)
+  email      String   @db.VarChar(150)
+  created_at String?  @db.VarChar(24)
+  updated_at String?  @db.VarChar(24)
+  livres     livres[]
+}
+
+model livre_auteur {
+  auteur_id Int     @db.UnsignedInt
+  livre_id  Int     @db.UnsignedInt
+  auteurs   auteurs @relation(fields: [auteur_id], references: [id], onUpdate: Restrict, map: "livre_auteur_auteur_id_foreign")
+  livres    livres  @relation(fields: [livre_id], references: [id], onUpdate: Restrict, map: "livre_auteur_livre_id_foreign")
+
+  @@id([auteur_id, livre_id])
+  @@index([livre_id], map: "livre_auteur_livre_id_foreign")
+}
+
+model livres {
+  id            Int            @id @default(autoincrement()) @db.UnsignedInt
+  isbn          String         @db.VarChar(100)
+  titre         String         @db.VarChar(100)
+  annedition    Int
+  prix          Float
+  qtestock      Int
+  couverture    String         @db.VarChar(255)
+  specialite_id Int            @db.UnsignedInt
+  editeur_id    Int            @db.UnsignedInt
+  created_at    String?        @db.VarChar(24)
+  updated_at    String?        @db.VarChar(24)
+  livre_auteur  livre_auteur[]
+  editeurs      editeurs       @relation(fields: [editeur_id], references: [id], onUpdate: Restrict, map: "livres_editeur_id_foreign")
+  specialites   specialites    @relation(fields: [specialite_id], references: [id], onUpdate: Restrict, map: "livres_specialite_id_foreign")
+
+  @@index([editeur_id], map: "livres_editeur_id_foreign")
+  @@index([specialite_id], map: "livres_specialite_id_foreign")
+}
+
+model specialites {
+  id            Int      @id @default(autoincrement()) @db.UnsignedInt
+  nomspecialite String   @unique(map: "specialites_nomspecialite_unique") @db.VarChar(50)
+  created_at    String?  @db.VarChar(24)
+  updated_at    String?  @db.VarChar(24)
+  livres        livres[]
+}

@@ -9,9 +9,22 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/cache": "^11.11.0",
+    "@emotion/react": "^11.11.4",
+    "@emotion/server": "^11.11.0",
+    "@emotion/styled": "^11.11.5",
+    "@fontsource/roboto": "^5.0.13",
+    "@mui/icons-material": "^5.15.18",
+    "@mui/material": "^5.15.18",
+    "@prisma/client": "^5.14.0",
+    "axios": "^1.6.8",
+    "bootstrap": "^5.3.3",
+    "material-react-table": "^2.13.0",
+    "next": "14.2.3",
+    "prisma": "^5.14.0",
     "react": "^18",
-    "react-dom": "^18",
-    "next": "14.2.3"
+    "react-bootstrap": "^2.10.2",
+    "react-dom": "^18"
   },
   "devDependencies": {
     "postcss": "^8",
